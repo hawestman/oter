@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>no.sismo.oter</groupId>
+    <artifactId>kartverket-oter-client</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jvnet.jax-ws-commons</groupId>
+                <artifactId>jaxws-maven-plugin</artifactId>
+                <version>2.3</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <wsdlUrls>
+
+                        <wsdlUrl>https://test.grunnbok.no/grunnbok/wsapi/v1/IdentServiceWS?WSDL</wsdlUrl>
+
+                        <wsdlUrl>https://test.grunnbok.no/grunnbok/wsapi/v1/RegisterenhetsrettsandelServiceWS?WSDL</wsdlUrl>
+                        <wsdlUrl>https://test.grunnbok.no/grunnbok/wsapi/v1/RegisterenhetsrettServiceWS?WSDL</wsdlUrl>
+
+                        <!-- Viktig at disse kommer til sist, grunnet måten JAX-WS viker på og innholdet i hvert enkelte namespace. -->
+                        <wsdlUrl>https://test.grunnbok.no/grunnbok/wsapi/v1/KodelisteServiceWS?WSDL</wsdlUrl>
+                        <wsdlUrl>https://test.grunnbok.no/grunnbok/wsapi/v1/StoreServiceWS?WSDL</wsdlUrl>
+                        <wsdlUrl>https://test.grunnbok.no/grunnbok/wsapi/v1/PersonServiceWS?WSDL</wsdlUrl>
+                        <wsdlUrl>https://test.grunnbok.no/grunnbok/wsapi/v1/RettsstiftelseServiceWS?WSDL</wsdlUrl>
+
+
+                    </wsdlUrls>
+                    <target>2.1</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>no.sismo.oter.provider.Kartverket</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.xml</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.12</version>
+        </dependency>
+        <dependency>
+            <groupId>net.xeoh</groupId>
+            <artifactId>jspf.core</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>no.sismo.oter</groupId>
+            <artifactId>oter-utility</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>net.xeoh</groupId>
+            <artifactId>jspf.core</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+    </dependencies>
+
+</project>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/oter-ear/oter-ear.iml" filepath="$PROJECT_DIR$/oter-ear/oter-ear.iml" />
+      <module fileurl="file://$PROJECT_DIR$/oter-ejb/oter-ejb (2).iml" filepath="$PROJECT_DIR$/oter-ejb/oter-ejb (2).iml" />
+    </modules>
+  </component>
+</project>
