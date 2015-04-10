@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Class-Path: lib/jspf.core-1.0.2.jar lib/cassandra-driver-core-2.1.3.ja
- r lib/netty-3.9.0.Final.jar lib/guava-14.0.1.jar lib/metrics-core-3.0
- .2.jar lib/slf4j-api-1.7.5.jar lib/oter-utility-1.0-SNAPSHOT.jar
-Build-Jdk: 1.7.0_71
-Built-By: hwestman
-Created-By: Apache Maven 3.2.1
-Archiver-Version: Plexus Archiver
-
