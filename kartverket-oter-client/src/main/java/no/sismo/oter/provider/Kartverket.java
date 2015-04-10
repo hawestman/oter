@@ -41,14 +41,18 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringWriter;
 import java.net.Authenticator;
 import java.net.PasswordAuthentication;
+import java.net.URL;
+import java.util.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 
 import static java.lang.Thread.*;
@@ -68,9 +72,37 @@ public class Kartverket implements ProviderPlugin {
     HashMap<String, String> hmRes = new HashMap<String,String>();
 
     public boolean finished;
+    private Properties prop;
 
     public Kartverket() {
+
         this.finished = false;
+
+        this.prop = new Properties();
+        InputStream input = null;
+
+        try {
+
+            //input = new FileInputStream("config.properties");
+            //input = this.getClass().getResourceAsStream("config.properties");
+            URL url = ClassLoader.getSystemResource("config.properties");
+            prop.load(url.openStream());
+
+            // load a properties file
+            //prop.load(input);
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (input != null) {
+                try {
+                    input.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
     }
 
     public boolean isFinished() {
@@ -129,10 +161,10 @@ public class Kartverket implements ProviderPlugin {
 
         String xml = "";
 
-        final String username = "";
-        final String password = "";
+        final String username = prop.getProperty("username");
+        final String password = prop.getProperty("password");
 
-        /*
+
         // Siden WSDL-ene er passordbeskyttet m� autentiseringer (forel�pig) gj�res globalt
         Authenticator.setDefault(new Authenticator() {
             @Override
@@ -140,7 +172,7 @@ public class Kartverket implements ProviderPlugin {
                 return new PasswordAuthentication(username, password.toCharArray());
             }
         });
-        */
+
 
 
         DatatypeFactory datatypeFactory = null;
