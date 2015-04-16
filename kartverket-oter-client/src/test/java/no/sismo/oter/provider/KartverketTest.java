@@ -17,7 +17,7 @@ public class KartverketTest extends TestCase {
         
         numberIdList.add("28017025378");
         numberIdList.add("28017025378");
-		RequestParameterDAO requestParameter = new RequestParameterDAO(numberIdList, "Kartverket", "hentEiendom");
+		RequestParameterDAO requestParameter = new RequestParameterDAO(numberIdList, "Kartverket", "hentEiendom",false);
         
 		HashMap<String,String> numberIdListData = k.getProviderData(requestParameter);
 		System.out.println(numberIdListData.get("28017025378"));

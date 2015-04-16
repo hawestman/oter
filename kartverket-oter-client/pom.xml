@@ -9,6 +9,10 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
+    <properties>
+        <cxf.version>2.7.14</cxf.version>
+    </properties>
+
     <build>
         <plugins>
             <plugin>
@@ -49,7 +53,9 @@
                         <manifest>
                             <mainClass>no.sismo.oter.provider.Kartverket</mainClass>
                         </manifest>
+                        
                     </archive>
+                    <outputDirectory>/home/haw/workspace/oter/oter/oter-ejb/providerPlugins/</outputDirectory>
                 </configuration>
             </plugin>
         </plugins>
@@ -94,6 +100,18 @@
             <groupId>net.xeoh</groupId>
             <artifactId>jspf.core</artifactId>
             <version>1.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-core</artifactId>
+            <version>${cxf.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-bindings-soap</artifactId>
+            <version>${cxf.version}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

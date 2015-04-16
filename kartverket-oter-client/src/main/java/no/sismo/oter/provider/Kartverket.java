@@ -35,7 +35,6 @@ import no.sismo.oter.eiendom.PersonMedEiendom;
 import no.sismo.oter.utility.ProviderPlugin;
 import no.sismo.oter.utility.RequestParameterDAO;
 
-import org.apache.cxf.interceptor.InInterceptors;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
