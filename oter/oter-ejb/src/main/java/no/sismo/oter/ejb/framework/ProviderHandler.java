@@ -6,14 +6,17 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 
 
+
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import net.xeoh.plugins.base.PluginManager;
 import net.xeoh.plugins.base.impl.PluginManagerFactory;
 import net.xeoh.plugins.base.options.addpluginsfrom.OptionReportAfter;
 import net.xeoh.plugins.base.options.getplugin.OptionCapabilities;
-
 import no.sismo.oter.ejb.dao.ResponseDataDAO;
 import no.sismo.oter.ejb.model.StorageHandler;
-
 import no.sismo.oter.utility.ProviderPlugin;
 import no.sismo.oter.utility.RequestParameterDAO;
 
@@ -24,12 +27,16 @@ public class ProviderHandler {
 
     private PluginManager pm;
 
+    private static final Logger logger  = LogManager.getLogger(ProviderHandler.class.getName());
 
     /**
      * Creates a providerhandler where it first up classloads a provider from a given directory
      * @param provider
      */
     public ProviderHandler(String provider){
+    	
+    	logger.info("ProviderHandler() {} ", provider);	
+    	
     	//Creating the pluginmanager in order to aquire plugins later
         pm = PluginManagerFactory.createPluginManager();
         
@@ -43,6 +50,8 @@ public class ProviderHandler {
      * @return
      */
     public ResponseDataDAO handleRequest(RequestParameterDAO requestParameter){
+    	
+    	logger.info("handleRequest() {} ", requestParameter.getService());	
     	
     	HashMap<String,String> numberIdListData;
     	ResponseDataDAO responseData= new ResponseDataDAO(requestParameter);
