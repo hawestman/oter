@@ -1,2 +1,5 @@
 config.properties
 .idea
+.classpath
+.project
+.settings
