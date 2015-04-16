@@ -49,7 +49,10 @@ public class StorageHandler {
 		for(String numberId : requestParameter.getNumberIdList()){
 			results = session.execute("SELECT numberId,data FROM oter.service WHERE numberId ='"+numberId+"' AND provider='"+requestParameter.getProvider()+"' AND service ='"+requestParameter.getService()+"'");
 			Row r = results.one();
-			hm.put(r.getString("numberId"),r.getString("data"));
+			if(r!=null){
+				hm.put(r.getString("numberId"),r.getString("data"));
+			}
+			
 		}
 
 		

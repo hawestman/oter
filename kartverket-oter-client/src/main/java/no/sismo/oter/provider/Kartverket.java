@@ -16,19 +16,18 @@ import no.kartverket.grunnbok.wsapi.v1.domain.register.person.PersonIdentList;
 import no.kartverket.grunnbok.wsapi.v1.domain.register.registerenhet.Matrikkelenhet;
 import no.kartverket.grunnbok.wsapi.v1.domain.register.registerenhet.Registerenhet;
 import no.kartverket.grunnbok.wsapi.v1.domain.register.rettsstiftelse.overdragelse.OverdragelseAvRegisterenhetsrettIdList;
-
 import no.kartverket.grunnbok.wsapi.v1.service.ident.IdentService;
 import no.kartverket.grunnbok.wsapi.v1.service.ident.IdentServiceWS;
 import no.kartverket.grunnbok.wsapi.v1.service.registerenhetsrettsandel.RegisterenhetsrettsandelService;
 import no.kartverket.grunnbok.wsapi.v1.service.registerenhetsrettsandel.RegisterenhetsrettsandelServiceWS;
 import no.kartverket.grunnbok.wsapi.v1.service.rettsstiftelse.RettsstiftelseService;
 import no.kartverket.grunnbok.wsapi.v1.service.rettsstiftelse.RettsstiftelseServiceWS;
+import no.kartverket.grunnbok.wsapi.v1.service.store.ServiceException;
 import no.kartverket.grunnbok.wsapi.v1.service.store.StoreService;
 import no.kartverket.grunnbok.wsapi.v1.service.store.StoreServiceWS;
 import no.kartverket.grunnbok.wsapi.v1.service.servicetyper.PersonIdTilRegisterenhetsrettsandelIdsMap;
 import no.kartverket.grunnbok.wsapi.v1.service.servicetyper.PersonIdentTilPersonIdMap;
 import no.kartverket.grunnbok.wsapi.v1.service.servicetyper.PersonIdentTilPersonIdMap.Entry;
-
 import net.xeoh.plugins.base.annotations.Capabilities;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import no.sismo.oter.eiendom.Eiendom;
@@ -36,11 +35,15 @@ import no.sismo.oter.eiendom.PersonMedEiendom;
 import no.sismo.oter.utility.ProviderPlugin;
 import no.sismo.oter.utility.RequestParameterDAO;
 
+import org.apache.cxf.interceptor.InInterceptors;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
+import javax.xml.ws.BindingProvider;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -49,11 +52,6 @@ import java.net.Authenticator;
 import java.net.PasswordAuthentication;
 import java.net.URL;
 import java.util.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 
 import static java.lang.Thread.*;
 
@@ -62,120 +60,30 @@ import static java.lang.Thread.*;
  * Created by hwestman on 17.02.2015.
  */
 
-
-
 @PluginImplementation
 public class Kartverket implements ProviderPlugin {
 
     private RequestParameterDAO requestParamterDAO;
-
+    private Properties prop;
+    
+    
+    private GrunnbokContext context;
+    
+    private StoreService storeService;
+    private IdentService identService;
+    private RettsstiftelseService rettssitftelsesService;
+    private RegisterenhetsrettsandelService regRettAndelService;
+    
+    
+    //Should not be here this
     HashMap<String, String> hmRes = new HashMap<String,String>();
 
-    public boolean finished;
-    private Properties prop;
 
     public Kartverket() {
-
-        this.finished = false;
-
-        this.prop = new Properties();
-        InputStream input = null;
-
-        try {
-
-            //input = new FileInputStream("config.properties");
-            //input = this.getClass().getResourceAsStream("config.properties");
-            URL url = ClassLoader.getSystemResource("config.properties");
-            prop.load(url.openStream());
-
-            // load a properties file
-            //prop.load(input);
-
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } finally {
-            if (input != null) {
-                try {
-                    input.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-    }
-
-    public boolean isFinished() {
-        return finished;
-    }
-
-    @Capabilities
-    public String[] capabilities(){
-        return new String[] {"provider:Kartverket"};
-    }
-
-    @Override
-    public HashMap<String,String> getResult() {
-        /*
-        HashMap<String, String> hm =new HashMap<String,String>();
-
-        hm.put("10049047105", "<xml><person><Eiendom>11111111</eiendom></person></xml>");
-        hm.put("10049047106", "<xml><person><Eiendom>22222222</eiendom></person></xml>");
-        hm.put("10049047107", "<xml><person><Eiendom>33333333</eiendom></person></xml>");
-        hm.put("10049047108", "<xml><person><Eiendom>44444444</eiendom></person></xml>");
-        hm.put("10049047109", "<xml><person><Eiendom>55555555</eiendom></person></xml>");
-        hm.put("10049047110", "<xml><person><Eiendom>66666666</eiendom></person></xml>");
-        hm.put("10049047111", "<xml><person><Eiendom>77777777</eiendom></person></xml>");
-        hm.put("10049047112", "<xml><person><Eiendom>88888888</eiendom></person></xml>");
-        hm.put("10049047113", "<xml><person><Eiendom>99999999</eiendom></person></xml>");
-        hm.put("10049047114", "<xml><person><Eiendom>10101010</eiendom></person></xml>");
-        hm.put("10049047115", "<xml><person><Eiendom>10111213</eiendom></person></xml>");
-        hm.put("10049047116", "<xml><person><Eiendom>14151617</eiendom></person></xml>");
-        hm.put("10049047117", "<xml><person><Eiendom>18192021</eiendom></person></xml>");
-        hm.put("10049047118", "<xml><person><Eiendom>22232425</eiendom></person></xml>");
-        hm.put("10049047119", "<xml><person><Eiendom>26272829</eiendom></person></xml>");
-
-
-
-
-        for(String numberId :this.requestParamterDAO.getNumberIdList()){
-            hmRes.put(numberId, hm.get(numberId));
-        }
-        */
-        return hmRes;
-    }
-    @Override
-    public void setRequestParameter(RequestParameterDAO requestParameter){
-        this.requestParamterDAO = requestParameter;
-    }
-    @Override
-    public void run() {
-
-        for(String numberId :this.requestParamterDAO.getNumberIdList()){
-            hmRes.put(numberId, getXMLByNumberId(numberId));
-        }
-        finished = true;
-    }
-
-    public String getXMLByNumberId(String numberId){
-
-        String xml = "";
-
-        final String username = prop.getProperty("username");
-        final String password = prop.getProperty("password");
-
-
-        // Siden WSDL-ene er passordbeskyttet m� autentiseringer (forel�pig) gj�res globalt
-        Authenticator.setDefault(new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(username, password.toCharArray());
-            }
-        });
-
-
-
-        DatatypeFactory datatypeFactory = null;
+    	
+    	loadProperties();
+    	
+    	DatatypeFactory datatypeFactory = null;
         try {
             datatypeFactory = DatatypeFactory.newInstance();
         } catch (DatatypeConfigurationException e) {
@@ -189,144 +97,209 @@ public class Kartverket implements ProviderPlugin {
         snapshotVersionCurrent.setTimestamp(datatypeFactory.newXMLGregorianCalendar(9999, 1, 1, 0, 0, 0, 0, 1));
 
         // Alle kall må ha en context
-        GrunnbokContext context = new GrunnbokContext();
+        context = new GrunnbokContext();
         context.setApiVersion("0.2");
         context.setClientIdentification("eksempelklient 0.2");
         context.setLocale("nb_NO");
         context.setSnapshotVersion(snapshotVersionCurrent);
+        
+        createServices();
+    	
+    }
+    private void loadProperties(){
+    	
+    	this.prop = new Properties();
+        InputStream input = null;
+    	try {
 
-
-        StoreServiceWS storeServiceWS = new StoreServiceWS();
-        StoreService storeService = storeServiceWS.getStoreServicePort();
+            prop.load(Kartverket.class.getClassLoader().getResourceAsStream("config.properties"));
+           
+        } catch (Exception ex) {
+        	System.out.println("Exception when loading properties");
+            ex.printStackTrace();
+        } finally {
+            if (input != null) {
+                try {
+                    input.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    private void createServices(){
+    	
+    	StoreServiceWS storeServiceWS = new StoreServiceWS();
+        storeService = storeServiceWS.getStoreServicePort();
+        ((BindingProvider)storeService).getRequestContext().put(BindingProvider.USERNAME_PROPERTY,prop.getProperty("username"));
+        ((BindingProvider)storeService).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY,prop.getProperty("password"));
+        
 
         IdentServiceWS identServiceWS = new IdentServiceWS();
-        IdentService identService = identServiceWS.getIdentServicePort();
+        identService = identServiceWS.getIdentServicePort();
+        ((BindingProvider)identService).getRequestContext().put(BindingProvider.USERNAME_PROPERTY,prop.getProperty("username"));
+        ((BindingProvider)identService).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY,prop.getProperty("password"));
+        //((BindingProvider)identService).getRequestContext().put("com.sun.xml.internal.ws.request.timeout", 29); 
+        //((BindingProvider)identService).getRequestContext().put("javax.xml.ws.client.connectionTimeout", "1");
 
         RettsstiftelseServiceWS rettssitftelsesServiceWS = new RettsstiftelseServiceWS();
-        RettsstiftelseService rettssitftelsesService = rettssitftelsesServiceWS.getRettsstiftelseServicePort();
+        rettssitftelsesService = rettssitftelsesServiceWS.getRettsstiftelseServicePort();
+        ((BindingProvider)rettssitftelsesService).getRequestContext().put(BindingProvider.USERNAME_PROPERTY,prop.getProperty("username"));
+        ((BindingProvider)rettssitftelsesService).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY,prop.getProperty("password"));
 
         RegisterenhetsrettsandelServiceWS regRettAndelServiceWS = new RegisterenhetsrettsandelServiceWS();
-        RegisterenhetsrettsandelService regRettAndelService = regRettAndelServiceWS.getRegisterenhetsrettsandelServicePort();
+        regRettAndelService = regRettAndelServiceWS.getRegisterenhetsrettsandelServicePort();
+        ((BindingProvider)regRettAndelService).getRequestContext().put(BindingProvider.USERNAME_PROPERTY,prop.getProperty("username"));
+        ((BindingProvider)regRettAndelService).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY,prop.getProperty("password"));
+        
+        
+        
+        
+    }
+    
+    private String generateXML(PersonMedEiendom personMedEiendom){
+    	String xml = null;
+    	try {
+
+            JAXBContext jaxbcontext;
+            jaxbcontext = JAXBContext.newInstance(PersonMedEiendom.class);
+            Marshaller jaxbMarshaller = jaxbcontext.createMarshaller();
 
 
+            StringWriter sw = new StringWriter();
 
-        PersonIdent person = new PersonIdent();
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            //jaxbMarshaller.marshal(personMedEiendom, System.out);
+            jaxbMarshaller.marshal(personMedEiendom, sw);
 
-        /*
-         * 28017025378
-         * 28028047837
-         * 28045937323
-         */
-
-        person.setIdentifikasjonsnummer(numberId);
+            xml = sw.toString();
 
 
-        PersonIdentList pidentList = new PersonIdentList();
-        pidentList.getItem().add(person);
+        } catch (JAXBException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    	
+    	return xml;
+    	
+    }
 
-        PersonIdentTilPersonIdMap map;
+
+    @Capabilities
+    public String[] capabilities(){
+        return new String[] {"provider:Kartverket"};
+    }
+    
+    public HashMap<String, String> getProviderData(RequestParameterDAO requestParameter){
+    	
+    	HashMap<String, String> result = new HashMap<String,String>();
+    	
+    	PersonIdentList pidentList = new PersonIdentList();
+    	PersonIdent person;
+    	
+    	for(String numberId :requestParameter.getNumberIdList()){
+    		person = new PersonIdent();
+    		person.setIdentifikasjonsnummer(numberId);
+    		pidentList.getItem().add(person);
+    		
+        }
+    	
+		PersonIdentTilPersonIdMap map;
         List<Entry> entryList;
 
         OverdragelseAvRegisterenhetsrettIdList overdragelseAvRegRettList;
-
         RegisterenhetsrettsandelIdList regRettAndelList;
         PersonIdTilRegisterenhetsrettsandelIdsMap regRettMap;
 
-
-        PersonMedEiendom personMedEiendom = new PersonMedEiendom();
-        personMedEiendom.setFnr(Long.parseLong(person.getIdentifikasjonsnummer()));
-
+        	
         try {
-            map = identService.findPersonIdsForIdents(pidentList, context);
-
-
-            PersonIdentTilPersonIdMap.Entry entry = map.getEntry().iterator().next();
-
-
-            PersonId pid = entry.getValue();
-            Person p = (Person)  storeService.getObject(pid, context);
-
-            PersonIdList pidList = new PersonIdList();
-            pidList.getItem().add(pid);
-
-            personMedEiendom.setNavn(p.getNavn());
-
-            //System.out.println(p.getNavn());
-
-            regRettMap = regRettAndelService.findAndelerForRettighetshaverePerson(pidList,context);
-            PersonIdTilRegisterenhetsrettsandelIdsMap.Entry regRettEntry = regRettMap.getEntry().iterator().next();
-
-            //Registerenhetsrettsandel regEnRettAnd = (Registerenhetsrettsandel) storeService.getObject(regRettEntry.getValue().getItem().iterator().next(), context);
-
-            Registerenhetsrett regEnRett;
-            Registerenhet regEnhet;
-            Registerenhetsrettsandel regEnRettAnd;
-            RegisterenhetsrettsandelIdList regRettEnAndList = regRettEntry.getValue();
-
-            List<Eiendom> eiendomsliste = new ArrayList<Eiendom>();
-
-            for(RegisterenhetsrettsandelId regEnRettAndId : regRettEnAndList.getItem()){
-                regEnRettAnd = (Registerenhetsrettsandel) storeService.getObject(regEnRettAndId, context);
-
-                Eiendom eiendom = new Eiendom();
-                //System.out.println("Eierandel: "+regEnRettAnd.getTeller()+"/"+regEnRettAnd.getNevner());
-                eiendom.setEierAndel(regEnRettAnd.getTeller()+"/"+regEnRettAnd.getNevner());
-
-                regEnRett = (Registerenhetsrett) storeService.getObject(regEnRettAnd.getRegisterenhetsrettId(),context);
-
-                GrunnbokKode k = (GrunnbokKode) storeService.getObject(regEnRett.getRegisterenhetsrettstypeId(), context);
-                //System.out.println("Eiendomsniv�: "+k.getKodeverdi());
-                eiendom.setEiendomsNivaa(k.getKodeverdi());
-
-                Matrikkelenhet matEnhet = (Matrikkelenhet) storeService.getObject(regEnRett.getRegisterenhetId(), context);
-                Kommune kom = (Kommune) storeService.getObject(matEnhet.getKommuneId(), context);
-
-                eiendom.setGaardsNummer(matEnhet.getGaardsnummer());
-                //System.out.println("g�rdsnummer: "+matEnhet.getGaardsnummer());
-
-                eiendom.setBruksNummer(matEnhet.getBruksnummer());
-                //System.out.println("bruksnummer: "+matEnhet.getBruksnummer());
-
-                eiendom.setFesteNummer(matEnhet.getFestenummer());
-                //System.out.println("festenummer: "+matEnhet.getFestenummer());
-
-                eiendom.setSeksjonsNummer(matEnhet.getSeksjonsnummer());
-                //System.out.println("seksjonsnummer: "+matEnhet.getSeksjonsnummer());
-
-                eiendom.setKommuneNummer(Integer.parseInt(kom.getKommunenummer()));
-                //System.out.println("Kommune: "+kom.getKommunenummer());
-
-                eiendom.setTingLyst(matEnhet.isTinglyst());
-                //System.out.println("Tinglyst: "+matEnhet.isTinglyst()+"\n");
-
-                eiendomsliste.add(eiendom);
-            }
-
-
-
-            personMedEiendom.setEiendom(eiendomsliste);
-
-
-            try {
-
-                JAXBContext jaxbcontext;
-                jaxbcontext = JAXBContext.newInstance(PersonMedEiendom.class);
-                Marshaller jaxbMarshaller = jaxbcontext.createMarshaller();
-
-
-                StringWriter sw = new StringWriter();
-
-                jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-                //jaxbMarshaller.marshal(personMedEiendom, System.out);
-                jaxbMarshaller.marshal(personMedEiendom, sw);
-
-                xml = sw.toString();
-
-
-            } catch (JAXBException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+        	
+        	map = identService.findPersonIdsForIdents(pidentList, context);
+        	
+        	Iterator<Entry> persons = map.getEntry().iterator();
+        	
+        	while(persons.hasNext()){
+        		
+        		//Getting the persons kartverk-id based on numberid and creating object for later use
+	        	PersonIdentTilPersonIdMap.Entry entry = persons.next();
+        		PersonMedEiendom personMedEiendom = new PersonMedEiendom();
+                personMedEiendom.setFnr(entry.getKey().getIdentifikasjonsnummer());
+                
+                //Getting the person object
+	            PersonId pid = entry.getValue();
+	            Person p = (Person) storeService.getObject(pid, context);
+	
+	            //creating a list of personids to identify if this person has any rights on a shared property
+	            PersonIdList pidList = new PersonIdList();
+	            pidList.getItem().add(pid);
+	
+	            personMedEiendom.setNavn(p.getNavn());
+	
+	            //System.out.println(p.getNavn());
+	
+	            regRettMap = regRettAndelService.findAndelerForRettighetshaverePerson(pidList,context);
+	            PersonIdTilRegisterenhetsrettsandelIdsMap.Entry regRettEntry = regRettMap.getEntry().iterator().next();
+	
+	            //Registerenhetsrettsandel regEnRettAnd = (Registerenhetsrettsandel) storeService.getObject(regRettEntry.getValue().getItem().iterator().next(), context);
+	
+	            Registerenhetsrett regEnRett;
+	            
+	            
+	            Registerenhet regEnhet;
+	            Registerenhetsrettsandel regEnRettAnd;
+	            RegisterenhetsrettsandelIdList regRettEnAndList = regRettEntry.getValue();
+	
+	            List<Eiendom> eiendomsliste = new ArrayList<Eiendom>();
+	            
+	            //Getting all properties where this person has any ownership
+	
+	            for(RegisterenhetsrettsandelId regEnRettAndId : regRettEnAndList.getItem()){
+	                regEnRettAnd = (Registerenhetsrettsandel) storeService.getObject(regEnRettAndId, context);
+	
+	                Eiendom eiendom = new Eiendom();
+	                //System.out.println("Eierandel: "+regEnRettAnd.getTeller()+"/"+regEnRettAnd.getNevner());
+	                eiendom.setEierAndel(regEnRettAnd.getTeller()+"/"+regEnRettAnd.getNevner());
+	
+	                regEnRett = (Registerenhetsrett) storeService.getObject(regEnRettAnd.getRegisterenhetsrettId(),context);
+	
+	                GrunnbokKode k = (GrunnbokKode) storeService.getObject(regEnRett.getRegisterenhetsrettstypeId(), context);
+	                //System.out.println("Eiendomsniv�: "+k.getKodeverdi());
+	                eiendom.setEiendomsNivaa(k.getKodeverdi());
+	
+	                Matrikkelenhet matEnhet = (Matrikkelenhet) storeService.getObject(regEnRett.getRegisterenhetId(), context);
+	                Kommune kom = (Kommune) storeService.getObject(matEnhet.getKommuneId(), context);
+	
+	                eiendom.setGaardsNummer(matEnhet.getGaardsnummer());
+	                //System.out.println("g�rdsnummer: "+matEnhet.getGaardsnummer());
+	
+	                eiendom.setBruksNummer(matEnhet.getBruksnummer());
+	                //System.out.println("bruksnummer: "+matEnhet.getBruksnummer());
+	
+	                eiendom.setFesteNummer(matEnhet.getFestenummer());
+	                //System.out.println("festenummer: "+matEnhet.getFestenummer());
+	
+	                eiendom.setSeksjonsNummer(matEnhet.getSeksjonsnummer());
+	                //System.out.println("seksjonsnummer: "+matEnhet.getSeksjonsnummer());
+	
+	                eiendom.setKommuneNummer(Integer.parseInt(kom.getKommunenummer()));
+	                //System.out.println("Kommune: "+kom.getKommunenummer());
+	
+	                eiendom.setTingLyst(matEnhet.isTinglyst());
+	                //System.out.println("Tinglyst: "+matEnhet.isTinglyst()+"\n");
+	
+	                eiendomsliste.add(eiendom);
+	            }
+	
+	
+	
+	            personMedEiendom.setEiendom(eiendomsliste);
+	            
+	            result.put(personMedEiendom.getFnr(), this.generateXML(personMedEiendom));
+	            
+        	}
+        	
+    		
+            
 
 
 
@@ -348,16 +321,18 @@ public class Kartverket implements ProviderPlugin {
         } catch (no.kartverket.grunnbok.wsapi.v1.service.ident.ServiceException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        } catch (no.kartverket.grunnbok.wsapi.v1.service.store.ServiceException e) {
+        }  catch (no.kartverket.grunnbok.wsapi.v1.service.registerenhetsrettsandel.ServiceException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-
-        } catch (no.kartverket.grunnbok.wsapi.v1.service.registerenhetsrettsandel.ServiceException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-
-        return xml;
+        } catch (ServiceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	
+    	
+    	
+    	return result;
     }
+    
 }

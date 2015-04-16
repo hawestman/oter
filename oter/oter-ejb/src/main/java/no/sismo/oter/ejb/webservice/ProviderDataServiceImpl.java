@@ -9,6 +9,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 
 
+
 import no.sismo.oter.ejb.dao.ResponseDataDAO;
 import no.sismo.oter.ejb.framework.Constants;
 import no.sismo.oter.ejb.framework.ProviderHandler;
@@ -37,11 +38,12 @@ public class ProviderDataServiceImpl implements ProviderDataService{
     @Override
 	public ResponseDataDAO getProviderDataById(@WebParam(name="provider")String provider,
     												@WebParam(name="service")String service,
-													@WebParam(name="numberIdList")List<String> numberIdList){
+													@WebParam(name="numberId")List<String> numberIdList,
+													@WebParam(name="useLocalData")Boolean useLocalData){
     	
     	ProviderHandler ph;
     	 
-    	RequestParameterDAO requestParameter = new RequestParameterDAO(numberIdList, provider, service);
+    	RequestParameterDAO requestParameter = new RequestParameterDAO(numberIdList, provider, service,useLocalData);
         ph = new ProviderHandler(provider);
 
         return ph.handleRequest(requestParameter);

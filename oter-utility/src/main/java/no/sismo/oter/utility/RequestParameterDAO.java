@@ -8,13 +8,15 @@ public class RequestParameterDAO {
     private List<String> numberIdList;
     private String provider;
     private String service;
+    private Boolean useLocalData;
 
 
-    public RequestParameterDAO(List<String> numberIdList, String provider, String service) {
+    public RequestParameterDAO(List<String> numberIdList, String provider, String service, Boolean useLocalData) {
         super();
         this.numberIdList = numberIdList;
         this.provider = provider;
         this.service = service;
+        this.useLocalData = useLocalData;
     }
 
 
@@ -38,6 +40,9 @@ public class RequestParameterDAO {
     }
     public void setService(String service) {
         this.service = service;
+    }
+    public Boolean getUseLocalData(){
+    	return this.useLocalData;
     }
 
 

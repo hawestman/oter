@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.*;
 public class PersonMedEiendom {
 	
 	List <Eiendom> eiendom;
-	Long fnr;
+	String fnr;
 	String navn;
 	
 	public List<Eiendom> getEiendom() {
@@ -18,11 +18,11 @@ public class PersonMedEiendom {
 	public void setEiendom(List<Eiendom> eiendomsListe) {
 		this.eiendom = eiendomsListe;
 	}
-	public Long getFnr() {
+	public String getFnr() {
 		return fnr;
 	}
 	@XmlAttribute
-	public void setFnr(Long fnr) {
+	public void setFnr(String fnr) {
 		this.fnr = fnr;
 	}
 	public String getNavn() {

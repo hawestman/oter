@@ -22,7 +22,7 @@ public class ProviderHandlerTest {
 		//28028047837
 		numberIdList.add("28017025378");
 		
-		RequestParameterDAO requestParameter = new RequestParameterDAO(numberIdList, "Kartverket", "hentEiendom");
+		RequestParameterDAO requestParameter = new RequestParameterDAO(numberIdList, "Kartverket", "hentEiendom",true);
         try{
             ResponseDataDAO responseData = ph.handleRequest(requestParameter);
 

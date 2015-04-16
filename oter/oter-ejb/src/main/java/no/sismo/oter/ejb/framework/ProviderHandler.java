@@ -32,7 +32,7 @@ public class ProviderHandler {
     public ProviderHandler(String provider){
 
         pm = PluginManagerFactory.createPluginManager();
-        pm.addPluginsFrom(new File("providerPlugins/").toURI(), new OptionReportAfter());
+        
             //pm.addPluginsFrom(new URI("classpath://no.sismo.oter.ejb.providers.impl."+provider));
 
     }
@@ -45,42 +45,40 @@ public class ProviderHandler {
     public ResponseDataDAO handleRequest(RequestParameterDAO requestParameter){
 
     	ResponseDataDAO responseData= new ResponseDataDAO(requestParameter);
-        ProviderPlugin plugin = pm.getPlugin(ProviderPlugin.class,new OptionCapabilities("provider:"+requestParameter.getProvider()));
-        HashMap<String,String> numberIdListData;
-        boolean useDBInstead = false;
+    	HashMap<String,String> numberIdListData;
+        boolean useDBInstead = requestParameter.getUseLocalData();
         StorageHandler storageHandler = new StorageHandler();
-
-        if(plugin != null){
-            try{
-
-                plugin.setRequestParameter(requestParameter);
-                Thread t = new Thread(plugin);
-                t.start();
-                t.join(10000);
-                if(plugin.isFinished()){
-                    numberIdListData = plugin.getResult();
-                    responseData.setDataByNumberId(numberIdListData);
-                    storageHandler.insertDataFromProvider(responseData);
-                    System.out.println("webservice completed, fresh results should be delivered");
-                }else{
-                    throw new Exception("Webservice not completed, go for backup");
-                }
-
-
-            }catch (Exception e){
-                System.out.println("Messages should come here");
-                System.out.println(e.getMessage());
-                //Couldnt perform webservicecall or couldnt insert data
-                //TODO Figue out
-                e.printStackTrace();
-                useDBInstead = true;
-            }
-        }else{
-            System.out.println("using database cause no plugins");
-            useDBInstead = true;
-            //No such plugin exists, should we just check db or is it fatal?
-            //TODO Figue out
-        }
+    	
+    	if(!useDBInstead){
+    		pm.addPluginsFrom(new File("providerPlugins/").toURI(), new OptionReportAfter());
+    		ProviderPlugin plugin = pm.getPlugin(ProviderPlugin.class,new OptionCapabilities("provider:"+requestParameter.getProvider()));
+	        if(plugin != null){
+	        	
+	        	try{
+	            	
+	        		numberIdListData = plugin.getProviderData(requestParameter);
+	                responseData.setDataByNumberId(numberIdListData);
+	                storageHandler.insertDataFromProvider(responseData);
+	                System.out.println("webservice completed, fresh results should be delivered");
+	                
+	            }catch (Exception e){
+	                System.out.println("Messages should come here");
+	                System.out.println(e.getMessage());
+	                //Couldnt perform webservicecall or couldnt insert data
+	                //TODO Figue out
+	                e.printStackTrace();
+	                
+	                useDBInstead = true;
+	            }
+	        }else{
+	        	
+        		System.out.println("using database because we couldnt get plugin");
+	            
+	            useDBInstead = true;
+	            //No such plugin exists, should we just check db or is it fatal?
+	            //TODO Figue out
+	        }
+    	}
 
         if(useDBInstead){
             numberIdListData = storageHandler.getDataFromProviderStorage(requestParameter);
