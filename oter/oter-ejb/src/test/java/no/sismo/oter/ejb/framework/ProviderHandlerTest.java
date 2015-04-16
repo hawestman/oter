@@ -25,7 +25,7 @@ public class ProviderHandlerTest {
 		RequestParameterDAO requestParameter = new RequestParameterDAO(numberIdList, "Kartverket", "hentEiendom",true);
         try{
             ResponseDataDAO responseData = ph.handleRequest(requestParameter);
-
+            System.out.println(responseData.getDataByNumberId().get("28017025378"));
             //assertEquals(responseData.getDataByNumberId().get("28017025378"),"<xml><person><Eiendom>11111111</eiendom></person></xml>");
             assertTrue(true);
         }catch(Exception e){

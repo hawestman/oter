@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-
-
 public class ResponseDataDAO {
 	
 	private RequestParameterDAO requestParameter;
@@ -17,15 +15,7 @@ public class ResponseDataDAO {
 	public ResponseDataDAO(RequestParameterDAO requestParameter) {
 		super();
 		this.requestParameter = requestParameter;
-		
-		/*
-		 * TODO maybe validate requestparameters before setting error to false?
-		 * 
-		 */
 	}
-
-
-	
 
 	public RequestParameterDAO getRequestParameter() {
 		return requestParameter;
