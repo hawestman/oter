@@ -1,3 +1,7 @@
+/**
+ * Author: HAW
+ */
+
 package no.sismo.oter.ejb.dao;
 
 import no.sismo.oter.utility.RequestParameterDAO;
