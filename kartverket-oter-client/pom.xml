@@ -15,36 +15,7 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.jvnet.jax-ws-commons</groupId>
-                <artifactId>jaxws-maven-plugin</artifactId>
-                <version>2.3</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>wsimport</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <wsdlUrls>
-
-                        <wsdlUrl>https://test.grunnbok.no/grunnbok/wsapi/v1/IdentServiceWS?WSDL</wsdlUrl>
-
-                        <wsdlUrl>https://test.grunnbok.no/grunnbok/wsapi/v1/RegisterenhetsrettsandelServiceWS?WSDL</wsdlUrl>
-                        <wsdlUrl>https://test.grunnbok.no/grunnbok/wsapi/v1/RegisterenhetsrettServiceWS?WSDL</wsdlUrl>
-
-                        <!-- Viktig at disse kommer til sist, grunnet måten JAX-WS viker på og innholdet i hvert enkelte namespace. -->
-                        <wsdlUrl>https://test.grunnbok.no/grunnbok/wsapi/v1/KodelisteServiceWS?WSDL</wsdlUrl>
-                        <wsdlUrl>https://test.grunnbok.no/grunnbok/wsapi/v1/StoreServiceWS?WSDL</wsdlUrl>
-                        <wsdlUrl>https://test.grunnbok.no/grunnbok/wsapi/v1/PersonServiceWS?WSDL</wsdlUrl>
-                        <wsdlUrl>https://test.grunnbok.no/grunnbok/wsapi/v1/RettsstiftelseServiceWS?WSDL</wsdlUrl>
-
-
-                    </wsdlUrls>
-                    <target>2.1</target>
-                </configuration>
-            </plugin>
+ 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -55,7 +26,7 @@
                         </manifest>
                         
                     </archive>
-                    <outputDirectory>/home/haw/workspace/oter/oter/oter-ejb/providerPlugins/</outputDirectory>
+                    <outputDirectory>C:\utvikling\workspace\oter\oter\oter-ejb\providerPlugins\</outputDirectory>
                 </configuration>
             </plugin>
         </plugins>
@@ -112,6 +83,11 @@
             <artifactId>cxf-rt-bindings-soap</artifactId>
             <version>${cxf.version}</version>
             <scope>provided</scope>
+        </dependency>
+         <dependency>
+        	<groupId>no.sismo.oter</groupId>
+        	<artifactId>kartverket-wsclient</artifactId>
+        	<version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
