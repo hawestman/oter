@@ -128,12 +128,19 @@ public class Kartverket implements ProviderPlugin {
     }
     private void createServices(){
     	
+    	long timepassed = 0;
+    		
+    	timepassed = System.currentTimeMillis();
+    	
     	StoreServiceWS storeServiceWS = new StoreServiceWS();
         storeService = storeServiceWS.getStoreServicePort();
         ((BindingProvider)storeService).getRequestContext().put(BindingProvider.USERNAME_PROPERTY,prop.getProperty("username"));
         ((BindingProvider)storeService).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY,prop.getProperty("password"));
         
-
+        
+        System.out.println(System.currentTimeMillis() - timepassed);
+        timepassed = System.currentTimeMillis();
+        
         IdentServiceWS identServiceWS = new IdentServiceWS();
         identService = identServiceWS.getIdentServicePort();
         ((BindingProvider)identService).getRequestContext().put(BindingProvider.USERNAME_PROPERTY,prop.getProperty("username"));
@@ -141,17 +148,27 @@ public class Kartverket implements ProviderPlugin {
         //((BindingProvider)identService).getRequestContext().put("com.sun.xml.internal.ws.request.timeout", 29); 
         //((BindingProvider)identService).getRequestContext().put("javax.xml.ws.client.connectionTimeout", "1");
 
+        System.out.println(System.currentTimeMillis() - timepassed);
+        timepassed = System.currentTimeMillis();
+        
+        
         RettsstiftelseServiceWS rettssitftelsesServiceWS = new RettsstiftelseServiceWS();
         rettssitftelsesService = rettssitftelsesServiceWS.getRettsstiftelseServicePort();
         ((BindingProvider)rettssitftelsesService).getRequestContext().put(BindingProvider.USERNAME_PROPERTY,prop.getProperty("username"));
         ((BindingProvider)rettssitftelsesService).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY,prop.getProperty("password"));
 
+        System.out.println(System.currentTimeMillis() - timepassed);
+        timepassed = System.currentTimeMillis();
+        
+        
         RegisterenhetsrettsandelServiceWS regRettAndelServiceWS = new RegisterenhetsrettsandelServiceWS();
         regRettAndelService = regRettAndelServiceWS.getRegisterenhetsrettsandelServicePort();
         ((BindingProvider)regRettAndelService).getRequestContext().put(BindingProvider.USERNAME_PROPERTY,prop.getProperty("username"));
         ((BindingProvider)regRettAndelService).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY,prop.getProperty("password"));
         
         
+        System.out.println(System.currentTimeMillis() - timepassed);
+        timepassed = System.currentTimeMillis();
         
         
     }
@@ -190,6 +207,10 @@ public class Kartverket implements ProviderPlugin {
     }
     
     public HashMap<String, String> getProviderData(RequestParameterDAO requestParameter){
+    	
+    	long  timepassed = 0;
+    	
+        timepassed = System.currentTimeMillis();
     	
     	HashMap<String, String> result = new HashMap<String,String>();
     	
@@ -330,8 +351,8 @@ public class Kartverket implements ProviderPlugin {
     	
     	
     	
-    	
-    	return result;
+        System.out.println(System.currentTimeMillis() - timepassed);
+        return result;
     }
     
 }

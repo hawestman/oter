@@ -39,8 +39,7 @@ public class ProviderHandler {
     	
     	//Creating the pluginmanager in order to aquire plugins later
         pm = PluginManagerFactory.createPluginManager();
-        
-            //pm.addPluginsFrom(new URI("classpath://no.sismo.oter.ejb.providers.impl."+provider));
+        //pm.addPluginsFrom(new URI("classpath://no.sismo.oter.ejb.providers.impl."+provider));
 
     }
 
@@ -97,6 +96,7 @@ public class ProviderHandler {
     	}
 
         if(useDBInstead){
+        	
         	//Getting data from database
             numberIdListData = storageHandler.getDataFromProviderStorage(requestParameter);
             //Setting responsedata
