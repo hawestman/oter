@@ -15,7 +15,9 @@ public class KartverketTest extends TestCase {
         
         List<String> numberIdList = new ArrayList<String>();
         
-        numberIdList.add("28017025378");
+       
+      
+       numberIdList.add("28017025378");
         numberIdList.add("28017025378");
 		RequestParameterDAO requestParameter = new RequestParameterDAO(numberIdList, "Kartverket", "hentEiendom",false);
         

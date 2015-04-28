@@ -150,10 +150,7 @@ public class Kartverket implements ProviderPlugin {
         regRettAndelService = regRettAndelServiceWS.getRegisterenhetsrettsandelServicePort();
         ((BindingProvider)regRettAndelService).getRequestContext().put(BindingProvider.USERNAME_PROPERTY,prop.getProperty("username"));
         ((BindingProvider)regRettAndelService).getRequestContext().put(BindingProvider.PASSWORD_PROPERTY,prop.getProperty("password"));
-        
-        
-        
-        
+            
     }
     
     private String generateXML(PersonMedEiendom personMedEiendom){
