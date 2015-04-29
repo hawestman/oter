@@ -22,9 +22,9 @@ public class ProviderDataServiceImplTest {
 		numberIdList.add("10049047105");
 		numberIdList.add("10049047106");
 		
-		//ProviderDataServiceImpl providerDataService = new ProviderDataServiceImpl();
+		ProviderDataServiceImpl providerDataService = new ProviderDataServiceImpl();
 		
-		//ResponseDataDAO responsData = providerDataService.getProviderDataById("Kartverket","hentEiendom", numberIdList);
+		ResponseDataDAO responsData = providerDataService.getProviderDataById("Kartverket","hentEiendom", numberIdList,false);
 		assertTrue(true);
         //assertEquals("<xml><person><Eiendom>22222222</eiendom></person></xml>", responsData.getDataByNumberId().get("10049047106"));
 	}

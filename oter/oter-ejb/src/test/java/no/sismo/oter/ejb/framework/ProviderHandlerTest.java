@@ -25,15 +25,16 @@ public class ProviderHandlerTest {
 		//28028047837
 		numberIdList.add("28017025378");
 		
-		RequestParameterDAO requestParameter = new RequestParameterDAO(numberIdList, "Kartverket", "hentEiendom",true);
+		RequestParameterDAO requestParameter = new RequestParameterDAO(numberIdList, "Kartverket", "hentEiendom",false);
         try{
             ResponseDataDAO responseData = ph.handleRequest(requestParameter);
             System.out.println(responseData.getDataByNumberId().get("28017025378"));
             //assertEquals(responseData.getDataByNumberId().get("28017025378"),"<xml><person><Eiendom>11111111</eiendom></person></xml>");
             assertTrue(true);
         }catch(Exception e){
-            fail();
-            e.printStackTrace();
+        	e.printStackTrace();
+        	fail();
+            
         }
 
 	}
