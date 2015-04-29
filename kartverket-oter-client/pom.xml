@@ -16,65 +16,61 @@
 	<build>
 		<plugins>
 
-			
+
 			<plugin>
-	            <groupId>org.codehaus.mojo</groupId>
-	            <artifactId>properties-maven-plugin</artifactId>
-	            <version>1.0-alpha-1</version>
-	            <executions>
-	                <execution>
-	                	<id>Local</id>
-	                    <phase>initialize</phase>
-	                    <goals>
-	                        <goal>read-project-properties</goal>
-	                    </goals>
-	                    <configuration>
-	                        <files>
-	                            <file>src/main/resources/config.properties</file>
-	                        </files>
-	                    </configuration>
-	                </execution>
-	            </executions>
-	        </plugin>
-	        <plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>properties-maven-plugin</artifactId>
+				<version>1.0-alpha-1</version>
+				<executions>
+					<execution>
+						<id>Local</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>read-project-properties</goal>
+						</goals>
+						<configuration>
+							<files>
+								<file>src/main/resources/config.properties</file>
+							</files>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
 				<version>2.3</version>
 				<executions>
 					<execution>
-					<id>Server</id>
+						<id>Server</id>
 						<phase>package</phase>
 						<goals>
 							<goal>shade</goal>
-							
+
 						</goals>
 						<configuration>
 							<artifactSet>
 								<excludes>
-									<exclude> javax.xml.bind:jaxb-api </exclude>
-									<exclude> javax.xml:jaxb-impl </exclude>
 									<exclude> log4j:log4j </exclude>
-									<exclude> net.xeoh:jspf.core </exclude>
+									<exclude> net.xeoh:jspf.cor </exclude>
 								</excludes>
 							</artifactSet>
 
 							<shadedArtifactAttached>true</shadedArtifactAttached>
 							<shadedClassifierName>kartverket-plugin</shadedClassifierName>
 							<outputDirectory>${jarLocalTargetPath}</outputDirectory>
-							
+
 						</configuration>
 					</execution>
 					<execution>
 						<phase>package</phase>
 						<goals>
 							<goal>shade</goal>
-							
+
 						</goals>
 						<configuration>
 							<artifactSet>
 								<excludes>
-									<exclude> javax.xml.bind:jaxb-api </exclude>
-									<exclude> javax.xml:jaxb-impl </exclude>
 									<exclude> log4j:log4j </exclude>
 									<exclude> net.xeoh:jspf.core </exclude>
 								</excludes>
@@ -83,28 +79,16 @@
 							<shadedArtifactAttached>true</shadedArtifactAttached>
 							<shadedClassifierName>kartverket-plugin</shadedClassifierName>
 							<outputDirectory>${jarServerTargetPath}</outputDirectory>
-							
+
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
-			<!--  This is for development purposes only, the target (the jar file) is meant to be copied to the application server as well as the local path  -->
-			
+
 		</plugins>
 	</build>
 
 	<dependencies>
-
-		<dependency>
-			<groupId>javax.xml.bind</groupId>
-			<artifactId>jaxb-api</artifactId>
-			<version>2.2.6</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.xml</groupId>
-			<artifactId>jaxb-impl</artifactId>
-			<version>2.1</version>
-		</dependency>
 
 		<dependency>
 			<groupId>junit</groupId>
@@ -112,15 +96,11 @@
 			<version>4.11</version>
 			<scope>provided</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.12</version>
-		</dependency>
-		<dependency>
-			<groupId>net.xeoh</groupId>
-			<artifactId>jspf.core</artifactId>
-			<version>1.0.2</version>
 		</dependency>
 
 		<dependency>
@@ -128,28 +108,13 @@
 			<artifactId>oter-utility</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
-		<dependency>
-			<groupId>net.xeoh</groupId>
-			<artifactId>jspf.core</artifactId>
-			<version>1.0.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-core</artifactId>
-			<version>${cxf.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>cxf-rt-bindings-soap</artifactId>
-			<version>${cxf.version}</version>
-			<scope>provided</scope>
-		</dependency>
+
 		<dependency>
 			<groupId>no.sismo.oter</groupId>
 			<artifactId>kartverket-wsclient</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
+
 	</dependencies>
 
 </project>
