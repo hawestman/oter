@@ -27,6 +27,16 @@
 							<goal>shade</goal>
 						</goals>
 						<configuration>
+
+							<artifactSet>
+								<excludes>
+									<exclude> javax.xml.bind:jaxb-api </exclude>
+									<exclude> javax.xml:jaxb-impl </exclude>
+									<exclude> log4j:log4j </exclude>
+									<exclude> net.xeoh:jspf.core </exclude>
+								</excludes>
+							</artifactSet>
+
 							<shadedArtifactAttached>true</shadedArtifactAttached>
 							<shadedClassifierName>kartverket-plugin</shadedClassifierName>
 							<outputDirectory>C:\utvikling\workspace\oter\oter\oter-ejb\providerPlugins\</outputDirectory>
