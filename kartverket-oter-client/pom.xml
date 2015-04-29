@@ -18,17 +18,39 @@
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>no.sismo.oter.provider.Kartverket</mainClass>
-						</manifest>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.3</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
 
+<<<<<<< HEAD
 					</archive>
 					<outputDirectory>/home/haw/workspace/oter/oter/oter-ejb/providerPlugins/</outputDirectory>
 				</configuration>
+=======
+							<artifactSet>
+								<excludes>
+									<exclude> javax.xml.bind:jaxb-api </exclude>
+									<exclude> javax.xml:jaxb-impl </exclude>
+									<exclude> log4j:log4j </exclude>
+									<exclude> net.xeoh:jspf.core </exclude>
+								</excludes>
+							</artifactSet>
+
+							<shadedArtifactAttached>true</shadedArtifactAttached>
+							<shadedClassifierName>kartverket-plugin</shadedClassifierName>
+							<outputDirectory>C:\utvikling\workspace\oter\oter\oter-ejb\providerPlugins\</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+>>>>>>> branch 'master' of https://github.com/hawestman/oter.git
 			</plugin>
+
 		</plugins>
 	</build>
 
