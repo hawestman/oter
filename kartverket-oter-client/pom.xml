@@ -26,7 +26,7 @@
 						</manifest>
 
 					</archive>
-					<outputDirectory>C:\utvikling\workspace\oter\oter\oter-ejb\providerPlugins\</outputDirectory>
+					<outputDirectory>/home/haw/workspace/oter/oter/oter-ejb/providerPlugins/</outputDirectory>
 				</configuration>
 			</plugin>
 		</plugins>
