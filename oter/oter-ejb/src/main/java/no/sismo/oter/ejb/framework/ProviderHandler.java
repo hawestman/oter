@@ -64,7 +64,7 @@ public class ProviderHandler {
     		 * Adding plugins in order to get data from provider
     		 */
     		//File f = new File("providerPlugins");
-    		File f = new File("/home/haw/workspace/oter/oter/oter-ejb/providerPlugins/");
+    		File f = new File("providerPlugins/");
     		pm.addPluginsFrom(f.toURI(), new OptionReportAfter());
     		
     		ProviderPlugin plugin = pm.getPlugin(ProviderPlugin.class,new OptionCapabilities("provider:"+requestParameter.getProvider()));

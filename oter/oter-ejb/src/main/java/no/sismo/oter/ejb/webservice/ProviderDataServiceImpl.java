@@ -49,9 +49,12 @@ public class ProviderDataServiceImpl implements ProviderDataService{
     	RequestParameterDAO requestParameter = new RequestParameterDAO(numberIdList, provider, service,useLocalData);
         ph = new ProviderHandler(provider);
         
-        System.out.println("webservice responding after : "+(System.currentTimeMillis() - timepassed) +" ms");
         
-        return ph.handleRequest(requestParameter);
+        
+        
+        ResponseDataDAO rdd = ph.handleRequest(requestParameter); 
+        System.out.println("webservice responding after : "+(System.currentTimeMillis() - timepassed) +" ms");
+        return rdd;
     }
 
 }
