@@ -47,6 +47,7 @@ public class ProviderHandler {
      * Handles a request to a registered provider
      * @param requestParameter
      * @return
+     * @throws URISyntaxException 
      */
     public ResponseDataDAO handleRequest(RequestParameterDAO requestParameter){
     	
@@ -62,7 +63,10 @@ public class ProviderHandler {
     		/*
     		 * Adding plugins in order to get data from provider
     		 */
-    		pm.addPluginsFrom(new File("providerPlugins/").toURI(), new OptionReportAfter());
+    		//File f = new File("providerPlugins");
+    		File f = new File("providerPlugins/");
+    		pm.addPluginsFrom(f.toURI(), new OptionReportAfter());
+    		
     		ProviderPlugin plugin = pm.getPlugin(ProviderPlugin.class,new OptionCapabilities("provider:"+requestParameter.getProvider()));
     		
 	        if(plugin != null){

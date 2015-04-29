@@ -103,7 +103,7 @@ public class Kartverket implements ProviderPlugin {
         context.setClientIdentification("eksempelklient 0.2");
         context.setLocale("nb_NO");
         context.setSnapshotVersion(snapshotVersionCurrent);
-        
+        System.out.println("creating services");
         createServices();
     	
     }

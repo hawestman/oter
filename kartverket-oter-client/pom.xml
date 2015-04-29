@@ -16,7 +16,26 @@
 	<build>
 		<plugins>
 
+			
 			<plugin>
+	            <groupId>org.codehaus.mojo</groupId>
+	            <artifactId>properties-maven-plugin</artifactId>
+	            <version>1.0-alpha-1</version>
+	            <executions>
+	                <execution>
+	                    <phase>initialize</phase>
+	                    <goals>
+	                        <goal>read-project-properties</goal>
+	                    </goals>
+	                    <configuration>
+	                        <files>
+	                            <file>src/main/resources/config.properties</file>
+	                        </files>
+	                    </configuration>
+	                </execution>
+	            </executions>
+	        </plugin>
+	        <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
 				<version>2.3</version>
@@ -25,9 +44,9 @@
 						<phase>package</phase>
 						<goals>
 							<goal>shade</goal>
+							
 						</goals>
 						<configuration>
-
 							<artifactSet>
 								<excludes>
 									<exclude> javax.xml.bind:jaxb-api </exclude>
@@ -39,12 +58,36 @@
 
 							<shadedArtifactAttached>true</shadedArtifactAttached>
 							<shadedClassifierName>kartverket-plugin</shadedClassifierName>
-							<outputDirectory>C:\utvikling\workspace\oter\oter\oter-ejb\providerPlugins\</outputDirectory>
+							<outputDirectory>${jarLocalTargetPath}</outputDirectory>
+							
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
-
+			<!--  This is for development purposes only, the target (the jar file) is meant to be copied to the application server as well as the local path  -->
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-dependency-plugin</artifactId>
+			    <executions>
+			      <execution>
+			        <id>copy</id>
+		            <phase>package</phase>
+		            <goals>
+		              <goal>copy</goal>
+		            </goals>
+			        <configuration>
+		              <artifactItems>
+		                <artifactItem>
+		                	<groupId>no.sismo.oter</groupId>
+							<artifactId>kartverket-oter-client</artifactId>
+							<version>1.0-SNAPSHOT</version>
+		                    <outputDirectory>${jarServerTargetPath}</outputDirectory>
+		                </artifactItem>
+		              </artifactItems>
+			        </configuration>
+			      </execution>
+			    </executions>
+			</plugin>
 		</plugins>
 	</build>
 
