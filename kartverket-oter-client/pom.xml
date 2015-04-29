@@ -18,17 +18,23 @@
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>no.sismo.oter.provider.Kartverket</mainClass>
-						</manifest>
-
-					</archive>
-					<outputDirectory>C:\utvikling\workspace\oter\oter\oter-ejb\providerPlugins\</outputDirectory>
-				</configuration>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.3</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<shadedArtifactAttached>true</shadedArtifactAttached>
+							<shadedClassifierName>kartverket-plugin</shadedClassifierName>
+							<outputDirectory>C:\utvikling\workspace\oter\oter\oter-ejb\providerPlugins\</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
+
 		</plugins>
 	</build>
 
