@@ -15,8 +15,7 @@ import org.junit.Test;
 
 public class ProviderHandlerTest {
 	
-	
-	
+		
 	@Test
 	public void testHandleRequest() throws URISyntaxException {
 		ProviderHandler ph = new ProviderHandler("Kartverket");
