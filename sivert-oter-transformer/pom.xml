@@ -1,0 +1,111 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>no.sismo.oter</groupId>
+	<artifactId>sivert-oter-transformer</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<build>
+		<plugins>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>properties-maven-plugin</artifactId>
+				<version>1.0-alpha-1</version>
+				<executions>
+					<execution>
+						<id>Local</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>read-project-properties</goal>
+						</goals>
+						<configuration>
+							<files>
+								<file>src/main/resources/config.properties</file>
+							</files>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.3</version>
+				<executions>
+					<execution>
+						<id>Server</id>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+
+						</goals>
+						<configuration>
+							<artifactSet>
+								<excludes>
+									<exclude> log4j:log4j </exclude>
+								</excludes>
+							</artifactSet>
+
+							<shadedArtifactAttached>true</shadedArtifactAttached>
+							<shadedClassifierName>plugin</shadedClassifierName>
+							<outputDirectory>${jarLocalTargetPath}</outputDirectory>
+
+						</configuration>
+					</execution>
+					<!-- <execution> <phase>package</phase> <goals> <goal>shade</goal> </goals> 
+						<configuration> <artifactSet> <excludes> <exclude> log4j:log4j </exclude> 
+						<exclude> net.xeoh:jspf.core </exclude> <exclude> org.json:json </exclude> 
+						</excludes> </artifactSet> <shadedArtifactAttached>true</shadedArtifactAttached> 
+						<shadedClassifierName>plugin</shadedClassifierName> <outputDirectory>${jarServerTargetPath}</outputDirectory> 
+						</configuration> </execution> -->
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.12</version>
+		</dependency>
+
+		<dependency>
+			<groupId>no.sismo.oter</groupId>
+			<artifactId>oter-utility</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20140107</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>2.4</version>
+			<classifier>jdk15</classifier>
+		</dependency>
+
+		<dependency>
+			<groupId>no.sismo.oter</groupId>
+			<artifactId>oter-wsclient</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+
+
+	</dependencies>
+</project>

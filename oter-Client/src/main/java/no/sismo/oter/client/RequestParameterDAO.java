@@ -1,4 +1,4 @@
-package no.sismo.oter.utility;
+package no.sismo.oter.client;
 
 import java.util.List;
 
@@ -8,16 +8,7 @@ public class RequestParameterDAO {
 	private String provider;
 	private String service;
 	private Boolean useLocalData;
-
-	public RequestParameterDAO(List<String> numberIdList, String provider,
-			String service, Boolean useLocalData, String dataConsumer) {
-		super();
-		this.numberIdList = numberIdList;
-		this.provider = provider;
-		this.service = service;
-		this.useLocalData = useLocalData;
-		
-	}
+	private String dataConsumer;
 
 	public List<String> getNumberIdList() {
 		return numberIdList;
@@ -33,6 +24,14 @@ public class RequestParameterDAO {
 
 	public void setProvider(String provider) {
 		this.provider = provider;
+	}
+
+	public String getDataConsumer() {
+		return dataConsumer;
+	}
+
+	public void setDataConsumer(String dataConsumer) {
+		this.dataConsumer = dataConsumer;
 	}
 
 	public String getService() {
