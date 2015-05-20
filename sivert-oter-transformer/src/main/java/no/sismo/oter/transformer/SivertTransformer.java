@@ -1,13 +1,12 @@
 package no.sismo.oter.transformer;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Properties;
 
 import net.sf.json.JSONException;
 import net.xeoh.plugins.base.annotations.Capabilities;
 import net.xeoh.plugins.base.annotations.PluginImplementation;
 import no.sismo.oter.utility.TransformerPlugin;
+import no.sismo.oter.utility.config.PropertiesFile;
 
 import org.apache.commons.lang.StringUtils;
 import org.json.JSONObject;
@@ -17,6 +16,7 @@ import org.json.XML;
 public class SivertTransformer implements TransformerPlugin {
 
 	private Properties prop;
+	private PropertiesFile propertiesFile;
 	public static int PRETTY_PRINT_INDENT_FACTOR = 4;
 
 	@Capabilities
@@ -26,7 +26,14 @@ public class SivertTransformer implements TransformerPlugin {
 
 	public SivertTransformer() {
 
-		loadProperties();
+		// loadProperties();
+
+		this.prop = new Properties();
+
+		propertiesFile = new PropertiesFile();
+
+		propertiesFile.loadProperties(SivertTransformer.class.getClassLoader()
+				.getResourceAsStream("config.properties"), prop);
 
 	}
 
@@ -75,29 +82,6 @@ public class SivertTransformer implements TransformerPlugin {
 
 		return jsonPrettyString;
 
-	}
-
-	private void loadProperties() {
-
-		this.prop = new Properties();
-		InputStream input = null;
-		try {
-
-			prop.load(SivertTransformer.class.getClassLoader()
-					.getResourceAsStream("config.properties"));
-
-		} catch (Exception ex) {
-			System.out.println("Exception while loading properties");
-			ex.printStackTrace();
-		} finally {
-			if (input != null) {
-				try {
-					input.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
 	}
 
 }

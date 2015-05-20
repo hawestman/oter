@@ -50,7 +50,7 @@ public class Client {
 			responceDataDAOService = providerDataServicePort
 					.getProviderDataById(requestParameter.getProvider(),
 							requestParameter.getService(),
-							requestParameter.getNumberIdList(), true);
+							requestParameter.getNumberIdList(), false);
 
 			System.out.println("providerDataServic: "
 					+ (System.currentTimeMillis() - timepassed));

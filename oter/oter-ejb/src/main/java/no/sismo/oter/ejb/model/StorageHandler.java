@@ -3,14 +3,14 @@ package no.sismo.oter.ejb.model;
 import java.util.HashMap;
 import java.util.Map;
 
-import no.sismo.oter.ejb.dao.ResponseDataDAO;
-
 import com.datastax.driver.core.BoundStatement;
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
+
+import no.sismo.oter.ejb.dao.ResponseDataDAO;
 import no.sismo.oter.utility.RequestParameterDAO;
 
 public class StorageHandler {

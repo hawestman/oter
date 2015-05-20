@@ -6,8 +6,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 import no.sismo.oter.ejb.dao.ResponseDataDAO;
 
 import org.junit.Test;
@@ -26,7 +24,6 @@ public class ProviderDataServiceImplTest {
 		ProviderDataServiceImpl providerDataService = new ProviderDataServiceImpl();
 		
 		ResponseDataDAO responsData = providerDataService.getProviderDataById("Kartverket","hentEiendom", numberIdList,false);
-		
 		
 		assertTrue(true);
         //assertEquals("<xml><person><Eiendom>22222222</eiendom></person></xml>", responsData.getDataByNumberId().get("10049047106"));

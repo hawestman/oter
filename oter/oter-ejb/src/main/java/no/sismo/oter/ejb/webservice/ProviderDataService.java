@@ -11,7 +11,6 @@ import javax.jws.soap.SOAPBinding;
 
 import no.sismo.oter.ejb.dao.ResponseDataDAO;
 
-
 @Remote
 @WebService
 @SOAPBinding(style = javax.jws.soap.SOAPBinding.Style.DOCUMENT)

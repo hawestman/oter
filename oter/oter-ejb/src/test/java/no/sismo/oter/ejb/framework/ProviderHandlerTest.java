@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import no.sismo.oter.ejb.dao.ResponseDataDAO;
-
 import no.sismo.oter.utility.RequestParameterDAO;
+
 import org.junit.Test;
 
 
@@ -24,7 +24,7 @@ public class ProviderHandlerTest {
 		//28028047837
 		numberIdList.add("28017025378");
 		
-		RequestParameterDAO requestParameter = new RequestParameterDAO(numberIdList, "Kartverket", "hentEiendom",false);
+		RequestParameterDAO requestParameter = new RequestParameterDAO(numberIdList, "Kartverket", "hentEiendom",false,null);
         try{
             ResponseDataDAO responseData = ph.handleRequest(requestParameter);
             System.out.println(responseData.getDataByNumberId().get("28017025378"));

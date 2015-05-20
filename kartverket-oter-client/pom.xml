@@ -57,7 +57,7 @@
 							</artifactSet>
 
 							<shadedArtifactAttached>true</shadedArtifactAttached>
-							<shadedClassifierName>kartverket-plugin</shadedClassifierName>
+							<shadedClassifierName>plugin</shadedClassifierName>
 							<outputDirectory>${jarLocalTargetPath}</outputDirectory>
 
 						</configuration>
@@ -77,7 +77,7 @@
 							</artifactSet>
 
 							<shadedArtifactAttached>true</shadedArtifactAttached>
-							<shadedClassifierName>kartverket-plugin</shadedClassifierName>
+							<shadedClassifierName>plugin</shadedClassifierName>
 							<outputDirectory>${jarServerTargetPath}</outputDirectory>
 
 						</configuration>
