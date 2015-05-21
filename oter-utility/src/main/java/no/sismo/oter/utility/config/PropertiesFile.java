@@ -7,7 +7,7 @@ import java.util.Properties;
 public class PropertiesFile {
 
 	public void loadProperties(InputStream inStream, Properties prop) {
-		InputStream inStream1=null;
+
 		try {
 
 			prop.load(inStream);
@@ -16,7 +16,7 @@ public class PropertiesFile {
 			System.out.println("Exception while loading properties");
 			ex.printStackTrace();
 		} finally {
-			if (inStream1 != null) {
+			if (inStream != null) {
 				try {
 					inStream.close();
 				} catch (IOException e) {
