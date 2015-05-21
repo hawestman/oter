@@ -58,8 +58,8 @@ import no.sismo.oter.utility.config.PropertiesFile;
 public class Kartverket implements ProviderPlugin {
 
 	private RequestParameterDAO requestParamterDAO;
+	
 	private Properties prop;
-
 	private PropertiesFile propertiesFile;
 
 	private GrunnbokContext context;

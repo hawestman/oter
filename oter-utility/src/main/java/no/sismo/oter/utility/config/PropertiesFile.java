@@ -7,19 +7,18 @@ import java.util.Properties;
 public class PropertiesFile {
 
 	public void loadProperties(InputStream inStream, Properties prop) {
-
-		InputStream input = null;
+		InputStream inStream1=null;
 		try {
 
 			prop.load(inStream);
 
 		} catch (Exception ex) {
-			System.out.println("Exception when loading properties");
+			System.out.println("Exception while loading properties");
 			ex.printStackTrace();
 		} finally {
-			if (input != null) {
+			if (inStream1 != null) {
 				try {
-					input.close();
+					inStream.close();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

@@ -23,8 +23,6 @@ public class Client {
 		TransformerHandler th;
 		th = new TransformerHandler("Sivert");
 
-		// DomainMapper mapper=new DomainMapperImpl();
-
 		List<String> numberIdList = new ArrayList<String>();
 
 		numberIdList.add("28017025378");

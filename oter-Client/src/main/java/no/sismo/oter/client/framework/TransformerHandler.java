@@ -1,12 +1,14 @@
 package no.sismo.oter.client.framework;
 
 import java.io.File;
+import java.util.Properties;
 
 import net.xeoh.plugins.base.PluginManager;
 import net.xeoh.plugins.base.impl.PluginManagerFactory;
 import net.xeoh.plugins.base.options.addpluginsfrom.OptionReportAfter;
 import net.xeoh.plugins.base.options.getplugin.OptionCapabilities;
 import no.sismo.oter.utility.TransformerPlugin;
+import no.sismo.oter.utility.config.PropertiesFile;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -14,7 +16,10 @@ import org.apache.log4j.Logger;
 public class TransformerHandler {
 
 	private PluginManager pm;
-
+	
+	private Properties prop;
+	private PropertiesFile propertiesFile;
+	
 	private static final Logger logger = LogManager
 			.getLogger(TransformerHandler.class.getName());
 
@@ -41,6 +46,13 @@ public class TransformerHandler {
 	 * @return transformedData
 	 */
 	public String transformData(String dataConsumer, String responceData) {
+		
+		this.prop = new Properties();
+
+		propertiesFile = new PropertiesFile();
+
+		propertiesFile.loadProperties(TransformerHandler.class.getClassLoader()
+				.getResourceAsStream("config.properties"), prop);
 
 		// logger.info("transformData() {} ", requestParameter.getService());
 
@@ -50,8 +62,8 @@ public class TransformerHandler {
 		 * Adding plugins in order to transform data from transformer
 		 */
 
-		File f = new File("oterTransformerPlugins/");
-
+		File f = new File(prop.getProperty("TransformerPluginsLocation"));
+		
 		System.out.println("f.toURI(): " + f.toURI());
 
 		pm.addPluginsFrom(f.toURI(), new OptionReportAfter());

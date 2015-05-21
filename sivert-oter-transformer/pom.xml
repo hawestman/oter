@@ -23,7 +23,7 @@
 						</goals>
 						<configuration>
 							<files>
-								<file>src/main/resources/config.properties</file>
+								<file>src/main/resources/config-trans.properties</file>
 							</files>
 						</configuration>
 					</execution>
