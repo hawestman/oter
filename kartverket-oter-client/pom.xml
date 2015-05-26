@@ -26,7 +26,7 @@
 	                	<id>Local</id>
 	                    <phase>initialize</phase>
 	                    <goals>
-	                        <goal>read-project-properties</goal>
+	                        <goal>rkead-project-properties</goal>
 	                    </goals>
 	                    <configuration>
 	                        <files>
