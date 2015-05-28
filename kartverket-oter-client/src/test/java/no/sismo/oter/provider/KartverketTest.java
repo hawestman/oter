@@ -15,11 +15,12 @@ public class KartverketTest extends TestCase {
         
         List<String> numberIdList = new ArrayList<String>();
         
-       
-      
+       // numberIdList =["28017025378", "28045937323", "La Plata"];
+        		
        numberIdList.add("28017025378");
-        numberIdList.add("28017025378");
-		RequestParameterDAO requestParameter = new RequestParameterDAO(numberIdList, "Kartverket", "hentEiendom",false);
+//       numberIdList.add("28028047837");
+        
+		RequestParameterDAO requestParameter = new RequestParameterDAO(numberIdList, "Kartverket", "hentEiendom",true,"");
         
 		HashMap<String,String> numberIdListData = k.getProviderData(requestParameter);
 		System.out.println(numberIdListData.get("28017025378"));
