@@ -35,6 +35,7 @@ public class ProviderDataServiceImpl implements ProviderDataService {
 	public ResponseDataDAO getProviderDataById(
 			@WebParam(name = "provider") String provider,
 			@WebParam(name = "service") String service,
+			@WebParam(name = "consumer") String consumer,
 			@WebParam(name = "numberId") List<String> numberIdList,
 			@WebParam(name = "useLocalData") Boolean useLocalData) {
 
@@ -43,12 +44,13 @@ public class ProviderDataServiceImpl implements ProviderDataService {
 		timepassed = System.currentTimeMillis();
 
 		RequestParameterDAO requestParameter = new RequestParameterDAO(
-				numberIdList, provider, service, useLocalData,"");
+				numberIdList, provider, service, consumer, useLocalData);
 		ph = new ProviderHandler(provider);
 
 		ResponseDataDAO rdd = ph.handleRequest(requestParameter);
 		System.out.println("webservice responding after : "
 				+ (System.currentTimeMillis() - timepassed) + " ms");
+
 		return rdd;
 	}
 

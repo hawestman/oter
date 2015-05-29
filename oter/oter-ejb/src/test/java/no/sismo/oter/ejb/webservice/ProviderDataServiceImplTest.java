@@ -23,7 +23,7 @@ public class ProviderDataServiceImplTest {
 		
 		ProviderDataServiceImpl providerDataService = new ProviderDataServiceImpl();
 		
-		ResponseDataDAO responsData = providerDataService.getProviderDataById("Kartverket","hentEiendom", numberIdList,false);
+		ResponseDataDAO responsData = providerDataService.getProviderDataById("Kartverket","hentEiendom","Sivert", numberIdList,false);
 		
 		assertTrue(true);
         //assertEquals("<xml><person><Eiendom>22222222</eiendom></person></xml>", responsData.getDataByNumberId().get("10049047106"));

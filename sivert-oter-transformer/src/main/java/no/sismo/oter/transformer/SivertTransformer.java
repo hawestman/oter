@@ -1,7 +1,7 @@
 package no.sismo.oter.transformer;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import net.sf.json.JSONException;
@@ -23,7 +23,7 @@ public class SivertTransformer implements TransformerPlugin {
 
 	@Capabilities
 	public String[] capabilities() {
-		return new String[] { "transformer:Sivert" };
+		return new String[] { "transformer:SIVERT" };
 	}
 
 	public SivertTransformer() {
@@ -37,25 +37,49 @@ public class SivertTransformer implements TransformerPlugin {
 
 	}
 
-	public String transformData(String responceData) {
+	public HashMap<String, String> transformData(
+			HashMap<String, String> responceData) {
 
 		String format = "";
 
-		String transformedData = null;
+		HashMap<String, String> transformedData = null;
 
 		format = prop.getProperty("format");
 
 		if (StringUtils.equalsIgnoreCase("JSON", format)) {
-			transformedData = convertXMLToJson(responceData);
+			transformedData = convertXMLMapToJsonMap(responceData);
 		}
 
 		else if (StringUtils.equalsIgnoreCase("XML", format)) {
 			transformedData = responceData;
-		} else {
-			transformedData = format
-					+ " format is not soppurted, XML and JSON are valid formats";
 		}
+
+		else {
+			transformedData = responceData;
+		}
+
+		// else {
+		// transformedData = format
+		// + " format is not soppurted, XML and JSON are valid formats";
+		// }
+
 		return transformedData;
+
+	}
+
+	public HashMap<String, String> convertXMLMapToJsonMap(
+			HashMap<String, String> XMLMap) {
+
+		HashMap<String, String> jsonPrettyMap = new HashMap<String, String>();
+
+		for (Map.Entry<String, String> entry : XMLMap.entrySet()) {
+
+			jsonPrettyMap.put(entry.getKey(),
+					convertXMLToJson(entry.getValue()));
+
+		}
+
+		return jsonPrettyMap;
 
 	}
 
@@ -82,29 +106,6 @@ public class SivertTransformer implements TransformerPlugin {
 
 		return jsonPrettyString;
 
-	}
-
-	private void loadProperties() {
-
-		this.prop = new Properties();
-		InputStream input = null;
-		try {
-
-			prop.load(SivertTransformer.class.getClassLoader()
-					.getResourceAsStream("config.properties"));
-
-		} catch (Exception ex) {
-			System.out.println("Exception while loading properties");
-			ex.printStackTrace();
-		} finally {
-			if (input != null) {
-				try {
-					input.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
 	}
 
 }

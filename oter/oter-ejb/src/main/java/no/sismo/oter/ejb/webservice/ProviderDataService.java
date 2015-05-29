@@ -19,6 +19,7 @@ public interface ProviderDataService{
 	public ResponseDataDAO getProviderDataById(
 			@WebParam(name="provider")String provider,
 			@WebParam(name="service")String service,
+			@WebParam(name="consumer")String consumer,
 			@WebParam(name="numberId")List<String> numberIdList,
 			@WebParam(name="useLocalData")Boolean useLocalData) throws Exception;
 }

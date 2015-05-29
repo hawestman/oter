@@ -15,6 +15,7 @@ import no.sismo.oter.utility.ProviderPlugin;
 import no.sismo.oter.utility.RequestParameterDAO;
 import no.sismo.oter.utility.config.PropertiesFile;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -59,7 +60,10 @@ public class ProviderHandler {
 
 		logger.info("handleRequest() {} ", requestParameter.getService());
 
-		HashMap<String, String> numberIdListData;
+		TransformerHandler th;
+		th = new TransformerHandler(requestParameter.getConsumer());
+
+		HashMap<String, String> numberIdListData = new HashMap<String, String>();
 		ResponseDataDAO responseData = new ResponseDataDAO(requestParameter);
 		StorageHandler storageHandler = new StorageHandler();
 		boolean useDBInstead = requestParameter.getUseLocalData();
@@ -122,10 +126,17 @@ public class ProviderHandler {
 			// Getting data from database
 			numberIdListData = storageHandler
 					.getDataFromProviderStorage(requestParameter);
-			// Setting responsedata
+			// Transforming og Setting responsedata
 			responseData.setDataByNumberId(numberIdListData);
+
 		}
+
+		// Transforming data based on transformer consumer plugin
+
+		responseData.setDataByNumberId(th.transformData(StringUtils.upperCase(requestParameter.getConsumer()),
+				responseData.getDataByNumberId()));
 
 		return responseData;
 	}
+
 }
