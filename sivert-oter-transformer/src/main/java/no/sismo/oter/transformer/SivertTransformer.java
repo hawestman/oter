@@ -23,7 +23,7 @@ public class SivertTransformer implements TransformerPlugin {
 
 	@Capabilities
 	public String[] capabilities() {
-		return new String[] { "transformer:SIVERT" };
+		return new String[] { "transformer:Sivert" };
 	}
 
 	public SivertTransformer() {

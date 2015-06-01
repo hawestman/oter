@@ -54,12 +54,22 @@
 
 						</configuration>
 					</execution>
-					<!-- <execution> <phase>package</phase> <goals> <goal>shade</goal> </goals> 
-						<configuration> <artifactSet> <excludes> <exclude> log4j:log4j </exclude> 
-						<exclude> net.xeoh:jspf.core </exclude> <exclude> org.json:json </exclude> 
-						</excludes> </artifactSet> <shadedArtifactAttached>true</shadedArtifactAttached> 
-						<shadedClassifierName>plugin</shadedClassifierName> <outputDirectory>${jarServerTargetPath}</outputDirectory> 
-						</configuration> </execution> -->
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<artifactSet>
+								<excludes>
+									<exclude> log4j:log4j </exclude>
+								</excludes>
+							</artifactSet>
+							<shadedArtifactAttached>true</shadedArtifactAttached>
+							<shadedClassifierName>plugin</shadedClassifierName>
+							<outputDirectory>${jarServerTargetPath}</outputDirectory>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 

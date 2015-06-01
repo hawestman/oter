@@ -15,7 +15,6 @@ import no.sismo.oter.utility.ProviderPlugin;
 import no.sismo.oter.utility.RequestParameterDAO;
 import no.sismo.oter.utility.config.PropertiesFile;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -133,7 +132,11 @@ public class ProviderHandler {
 
 		// Transforming data based on transformer consumer plugin
 
-		responseData.setDataByNumberId(th.transformData(StringUtils.upperCase(requestParameter.getConsumer()),
+		// responseData.setDataByNumberId(th.transformData(StringUtils.upperCase(requestParameter.getConsumer()),
+		// responseData.getDataByNumberId()));
+
+		responseData.setDataByNumberId(th.transformData(
+				requestParameter.getConsumer(),
 				responseData.getDataByNumberId()));
 
 		return responseData;

@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.xml.ws.WebServiceRef;
 
-import no.sismo.oter.client.framework.TransformerHandler;
 import no.sismo.oter.ejb.webservice.Exception_Exception;
 import no.sismo.oter.ejb.webservice.ProviderDataService;
 import no.sismo.oter.ejb.webservice.ProviderDataServiceImplService;
@@ -20,8 +19,6 @@ public class Client {
 	public static void main(String[] args) {
 
 		long timepassed = 0;
-		TransformerHandler th;
-		th = new TransformerHandler("Sivert");
 
 		List<String> numberIdList = new ArrayList<String>();
 
@@ -32,8 +29,8 @@ public class Client {
 
 		requestParameter.setProvider("Kartverket");
 		requestParameter.setService("hentEiendom");
+		requestParameter.setConsumer("Sivert");
 		requestParameter.setNumberIdList(numberIdList);
-		requestParameter.setDataConsumer("Sivert");
 
 		timepassed = System.currentTimeMillis();
 
@@ -48,7 +45,9 @@ public class Client {
 			responceDataDAOService = providerDataServicePort
 					.getProviderDataById(requestParameter.getProvider(),
 							requestParameter.getService(),
-							requestParameter.getNumberIdList(), false);
+							requestParameter.getConsumer(),
+							requestParameter.getNumberIdList(), true);
+
 
 			System.out.println("providerDataServic: "
 					+ (System.currentTimeMillis() - timepassed));
@@ -57,38 +56,43 @@ public class Client {
 
 			e.printStackTrace();
 		}
-
-		System.out.println(th.transformData(requestParameter.getDataConsumer(),
-				formatXML(responceDataDAOService)));
-
-	}
-
-	private static String formatXML(ResponseDataDAO responceDataDAO) {
-
-		String xml = "";
-
-		for (int i = 0; i < responceDataDAO.getDataByNumberId().getEntry()
+		
+		for (int i = 0; i < responceDataDAOService.getDataByNumberId().getEntry()
 				.size(); i++) {
 
-			xml = xml
-					+ removeXMLDeclaration(responceDataDAO.getDataByNumberId()
+			System.out.println(responceDataDAOService.getDataByNumberId()
 							.getEntry().get(i).getValue());
 
 		}
 
-		xml = "<personMedEiendomList>" + xml + "</personMedEiendomList>";
-
-		return "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"
-				+ xml;
 	}
 
-	private static String removeXMLDeclaration(String xmlString) {
-		if (xmlString != null && xmlString.startsWith("<?xml")) {
-			int firstElement = xmlString.indexOf("<", 1);
-			return xmlString.substring(firstElement);
-		} else {
-			return xmlString;
-		}
-	}
+//	private static String formatXML(ResponseDataDAO responceDataDAO) {
+//
+//		String xml = "";
+//
+//		for (int i = 0; i < responceDataDAO.getDataByNumberId().getEntry()
+//				.size(); i++) {
+//
+//			xml = xml
+//					+ removeXMLDeclaration(responceDataDAO.getDataByNumberId()
+//							.getEntry().get(i).getValue());
+//
+//		}
+//
+//		xml = "<personMedEiendomList>" + xml + "</personMedEiendomList>";
+//
+//		return "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n"
+//				+ xml;
+//	}
+//
+//	private static String removeXMLDeclaration(String xmlString) {
+//		if (xmlString != null && xmlString.startsWith("<?xml")) {
+//			int firstElement = xmlString.indexOf("<", 1);
+//			return xmlString.substring(firstElement);
+//		} else {
+//			return xmlString;
+//		}
+//	}
 
 }

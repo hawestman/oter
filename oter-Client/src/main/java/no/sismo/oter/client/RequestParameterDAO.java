@@ -7,8 +7,9 @@ public class RequestParameterDAO {
 	private List<String> numberIdList;
 	private String provider;
 	private String service;
+	private String consumer;
 	private Boolean useLocalData;
-	private String dataConsumer;
+	
 
 	public List<String> getNumberIdList() {
 		return numberIdList;
@@ -26,12 +27,12 @@ public class RequestParameterDAO {
 		this.provider = provider;
 	}
 
-	public String getDataConsumer() {
-		return dataConsumer;
+	public String getConsumer() {
+		return consumer;
 	}
 
-	public void setDataConsumer(String dataConsumer) {
-		this.dataConsumer = dataConsumer;
+	public void setConsumer(String consumer) {
+		this.consumer = consumer;
 	}
 
 	public String getService() {
