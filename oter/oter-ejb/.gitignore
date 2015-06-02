@@ -3,3 +3,4 @@ providerPlugins/*
 /logs/
 /transformerPlugins/
 /providerPlugins/
+*.log
