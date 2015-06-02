@@ -4,3 +4,4 @@ config.properties
 .project
 .settings
 *.iml
+/target/

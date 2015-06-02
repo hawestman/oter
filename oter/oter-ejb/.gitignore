@@ -1,2 +1,5 @@
 /target/
 providerPlugins/*
+/logs/
+/transformerPlugins/
+/providerPlugins/
