@@ -1,5 +1,4 @@
-#clone this to config.properties and conf that one, dont add it to version control
-username=
-password=
-jarLocalTargetPath=
-jarServerTargetPath=
+username=sismo_test
+jarLocalTargetPath=/home/haw/workspace/oter/oter/oter-ejb/providerPlugins/
+jarServerTargetPath=/opt/wildfly-8.2.0.Final/bin/providerPlugins/
+password=dhk39YgV
