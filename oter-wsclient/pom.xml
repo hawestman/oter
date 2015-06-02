@@ -9,6 +9,7 @@
   <description>Webservice-klient mot Oter</description>
   
   	<build>
+  	<pluginManagement>
 		<plugins>
 
 			<plugin>
@@ -32,6 +33,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		</pluginManagement>
 	</build>
 	
 </project>
