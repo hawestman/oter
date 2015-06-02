@@ -59,8 +59,10 @@ public class TransformerHandler {
 
 		// logger.info("transformData() {} ", requestParameter.getService());
 
+//		HashMap<String, String> transformedData = new HashMap<String, String>();
+		
 		HashMap<String, String> transformedData = null;
-
+		
 		/*
 		 * Adding plugins in order to transform data from transformer
 		 */
@@ -95,6 +97,8 @@ public class TransformerHandler {
 		} else {
 			// TODO:Replace with log-line
 			System.out.println("no transformation plugin found");
+			
+//			transformedData = responceData;
 
 		}
 
