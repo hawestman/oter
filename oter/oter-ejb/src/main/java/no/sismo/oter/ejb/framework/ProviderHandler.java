@@ -106,7 +106,7 @@ public class ProviderHandler {
 							.println("webservice completed, fresh results should be delivered");
 
 				} catch (Exception e) {
-					// TODO: Replace with log-line	 
+					// TODO: Replace with log-line
 					System.out.println(e.getMessage());
 					e.printStackTrace();
 					useDBInstead = true;
@@ -129,15 +129,6 @@ public class ProviderHandler {
 			responseData.setDataByNumberId(numberIdListData);
 
 		}
-
-		// Transforming data based on transformer consumer plugin
-
-		// responseData.setDataByNumberId(th.transformData(StringUtils.upperCase(requestParameter.getConsumer()),
-		// responseData.getDataByNumberId()));
-
-		responseData.setDataByNumberId(th.transformData(
-				requestParameter.getConsumer(),
-				responseData.getDataByNumberId()));
 
 		return responseData;
 	}

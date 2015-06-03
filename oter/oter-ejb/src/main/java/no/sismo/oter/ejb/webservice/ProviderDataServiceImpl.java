@@ -8,6 +8,7 @@ import javax.jws.WebService;
 
 import no.sismo.oter.ejb.dao.ResponseDataDAO;
 import no.sismo.oter.ejb.framework.ProviderHandler;
+import no.sismo.oter.ejb.framework.TransformerHandler;
 import no.sismo.oter.utility.RequestParameterDAO;
 
 /**
@@ -44,6 +45,9 @@ public class ProviderDataServiceImpl implements ProviderDataService {
 		long timepassed = 0;
 		timepassed = System.currentTimeMillis();
 
+		TransformerHandler th;
+		th = new TransformerHandler(consumer);
+
 		RequestParameterDAO requestParameter = new RequestParameterDAO(
 				numberIdList, provider, service, consumer, useLocalData);
 		ph = new ProviderHandler(provider);
@@ -51,6 +55,12 @@ public class ProviderDataServiceImpl implements ProviderDataService {
 		ResponseDataDAO rdd = ph.handleRequest(requestParameter);
 		System.out.println("webservice responding after : "
 				+ (System.currentTimeMillis() - timepassed) + " ms");
+
+		
+		// Transforming data based on transformer consumer plugin
+
+		rdd.setDataByNumberId(th.transformData(requestParameter.getConsumer(),
+				rdd.getDataByNumberId()));
 
 		return rdd;
 	}

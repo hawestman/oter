@@ -98,7 +98,7 @@ public class TransformerHandler {
 			// TODO:Replace with log-line
 			System.out.println("no transformation plugin found");
 			
-//			transformedData = responceData;
+			transformedData = responceData;
 
 		}
 
