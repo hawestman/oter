@@ -46,7 +46,7 @@ public class Client {
 					.getProviderDataById(requestParameter.getProvider(),
 							requestParameter.getService(),
 							requestParameter.getConsumer(),
-							requestParameter.getNumberIdList(), false);
+							requestParameter.getNumberIdList(), true);
 
 
 			System.out.println("providerDataServic: "
