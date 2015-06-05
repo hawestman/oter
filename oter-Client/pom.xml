@@ -4,6 +4,14 @@
   <artifactId>oter-client</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   
+  <build>
+  	<resources>
+     <resource>
+       <directory>src/resources</directory>
+     </resource>
+   </resources>
+  </build>
+  
   <dependencies>
 
 		<dependency>

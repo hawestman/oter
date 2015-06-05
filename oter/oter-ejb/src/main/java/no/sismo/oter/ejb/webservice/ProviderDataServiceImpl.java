@@ -6,6 +6,9 @@ import javax.ejb.Stateless;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import no.sismo.oter.ejb.dao.ResponseDataDAO;
 import no.sismo.oter.ejb.framework.ProviderHandler;
 import no.sismo.oter.ejb.framework.TransformerHandler;
@@ -17,6 +20,10 @@ import no.sismo.oter.utility.RequestParameterDAO;
 @WebService(endpointInterface = "no.sismo.oter.ejb.webservice.ProviderDataService", name = "ProviderDataService")
 @Stateless
 public class ProviderDataServiceImpl implements ProviderDataService {
+	
+	private static final Logger logger = LogManager
+			.getLogger(ProviderDataServiceImpl.class.getName());
+	
 	/**
 	 * Default constructor.
 	 */
@@ -40,6 +47,8 @@ public class ProviderDataServiceImpl implements ProviderDataService {
 			@WebParam(name = "consumer") String consumer,
 			@WebParam(name = "numberId") List<String> numberIdList,
 			@WebParam(name = "useLocalData") Boolean useLocalData) {
+		
+		
 
 		ProviderHandler ph;
 		long timepassed = 0;
@@ -51,7 +60,13 @@ public class ProviderDataServiceImpl implements ProviderDataService {
 		RequestParameterDAO requestParameter = new RequestParameterDAO(
 				numberIdList, provider, service, consumer, useLocalData);
 		ph = new ProviderHandler(provider);
-
+		
+		logger.info("Recieved this webservicerequest: ");
+		logger.info(requestParameter.toString());
+		
+		
+		
+		
 		ResponseDataDAO rdd = ph.handleRequest(requestParameter);
 		System.out.println("webservice responding after : "
 				+ (System.currentTimeMillis() - timepassed) + " ms");

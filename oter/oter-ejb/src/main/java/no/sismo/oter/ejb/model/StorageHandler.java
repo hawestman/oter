@@ -25,11 +25,11 @@ public class StorageHandler {
 	public boolean insertDataFromProvider(ResponseDataDAO responseData){
 		
 		boolean ret = true;
-		
+		PreparedStatement statement = session.prepare("INSERT INTO oter.service (numberId,provider,service,data,created,lastChanged) VALUES (?,?,?,?,dateof(now()),dateof(now()))");
 		for(Map.Entry<String, String> entry : responseData.getDataByNumberId().entrySet()){
 			
 			
-			PreparedStatement statement = session.prepare("INSERT INTO oter.service (numberId,provider,service,data,created,lastChanged) VALUES (?,?,?,?,dateof(now()),dateof(now()))");
+			
 			BoundStatement boundStatement = statement.bind(entry.getKey(),responseData.getRequestParameter().getProvider(),responseData.getRequestParameter().getService(),entry.getValue());
 			ResultSet result = session.execute(boundStatement);
 			

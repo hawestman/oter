@@ -188,6 +188,7 @@ public class Kartverket implements ProviderPlugin {
 			StringWriter sw = new StringWriter();
 
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+			jaxbMarshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);
 			// jaxbMarshaller.marshal(personMedEiendom, System.out);
 			jaxbMarshaller.marshal(personMedEiendom, sw);
 
@@ -195,6 +196,7 @@ public class Kartverket implements ProviderPlugin {
 
 		} catch (JAXBException e) {
 			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 
@@ -240,10 +242,16 @@ public class Kartverket implements ProviderPlugin {
 			Iterator<Entry> persons = map.getEntry().iterator();
 
 			while (persons.hasNext()) {
-
+				try{
 				// Getting the persons kartverk-id based on numberid and
 				// creating object for later use
+					
+					//check if person is valid here
 				PersonIdentTilPersonIdMap.Entry entry = persons.next();
+				
+				//Valid person has value in entry, invalid ones dont
+				
+				// WRITE LOGIC FOR IT HERE!
 				PersonMedEiendom personMedEiendom = new PersonMedEiendom();
 				personMedEiendom.setFnr(entry.getKey()
 						.getIdentifikasjonsnummer());
@@ -284,53 +292,72 @@ public class Kartverket implements ProviderPlugin {
 
 				for (RegisterenhetsrettsandelId regEnRettAndId : regRettEnAndList
 						.getItem()) {
-					regEnRettAnd = (Registerenhetsrettsandel) storeService
-							.getObject(regEnRettAndId, context);
-
-					Eiendom eiendom = new Eiendom();
-					// System.out.println("Eierandel: "+regEnRettAnd.getTeller()+"/"+regEnRettAnd.getNevner());
-					eiendom.setEierAndel(regEnRettAnd.getTeller() + "/"
-							+ regEnRettAnd.getNevner());
-
-					regEnRett = (Registerenhetsrett) storeService.getObject(
-							regEnRettAnd.getRegisterenhetsrettId(), context);
-
-					GrunnbokKode k = (GrunnbokKode) storeService.getObject(
-							regEnRett.getRegisterenhetsrettstypeId(), context);
-					// System.out.println("Eiendomsniv�: "+k.getKodeverdi());
-					eiendom.setEiendomsNivaa(k.getKodeverdi());
-
-					Matrikkelenhet matEnhet = (Matrikkelenhet) storeService
-							.getObject(regEnRett.getRegisterenhetId(), context);
-					Kommune kom = (Kommune) storeService.getObject(
-							matEnhet.getKommuneId(), context);
-
-					eiendom.setGaardsNummer(matEnhet.getGaardsnummer());
-					// System.out.println("g�rdsnummer: "+matEnhet.getGaardsnummer());
-
-					eiendom.setBruksNummer(matEnhet.getBruksnummer());
-					// System.out.println("bruksnummer: "+matEnhet.getBruksnummer());
-
-					eiendom.setFesteNummer(matEnhet.getFestenummer());
-					// System.out.println("festenummer: "+matEnhet.getFestenummer());
-
-					eiendom.setSeksjonsNummer(matEnhet.getSeksjonsnummer());
-					// System.out.println("seksjonsnummer: "+matEnhet.getSeksjonsnummer());
-
-					eiendom.setKommuneNummer(Integer.parseInt(kom
-							.getKommunenummer()));
-					// System.out.println("Kommune: "+kom.getKommunenummer());
-
-					eiendom.setTingLyst(matEnhet.isTinglyst());
-					// System.out.println("Tinglyst: "+matEnhet.isTinglyst()+"\n");
-
-					eiendomsliste.add(eiendom);
+					
+					try{
+						regEnRettAnd = (Registerenhetsrettsandel) storeService
+								.getObject(regEnRettAndId, context);
+	
+						Eiendom eiendom = new Eiendom();
+						// System.out.println("Eierandel: "+regEnRettAnd.getTeller()+"/"+regEnRettAnd.getNevner());
+						eiendom.setEierAndel(regEnRettAnd.getTeller() + "/"
+								+ regEnRettAnd.getNevner());
+	
+						regEnRett = (Registerenhetsrett) storeService.getObject(
+								regEnRettAnd.getRegisterenhetsrettId(), context);
+	
+						GrunnbokKode k = (GrunnbokKode) storeService.getObject(
+								regEnRett.getRegisterenhetsrettstypeId(), context);
+						// System.out.println("Eiendomsniv�: "+k.getKodeverdi());
+						eiendom.setEiendomsNivaa(k.getKodeverdi());
+	
+						Matrikkelenhet matEnhet = (Matrikkelenhet) storeService
+								.getObject(regEnRett.getRegisterenhetId(), context);
+						Kommune kom = (Kommune) storeService.getObject(
+								matEnhet.getKommuneId(), context);
+	
+						eiendom.setGaardsNummer(matEnhet.getGaardsnummer());
+						// System.out.println("g�rdsnummer: "+matEnhet.getGaardsnummer());
+	
+						eiendom.setBruksNummer(matEnhet.getBruksnummer());
+						// System.out.println("bruksnummer: "+matEnhet.getBruksnummer());
+	
+						eiendom.setFesteNummer(matEnhet.getFestenummer());
+						// System.out.println("festenummer: "+matEnhet.getFestenummer());
+	
+						eiendom.setSeksjonsNummer(matEnhet.getSeksjonsnummer());
+						// System.out.println("seksjonsnummer: "+matEnhet.getSeksjonsnummer());
+	
+						eiendom.setKommuneNummer(Integer.parseInt(kom
+								.getKommunenummer()));
+						// System.out.println("Kommune: "+kom.getKommunenummer());
+	
+						eiendom.setTingLyst(matEnhet.isTinglyst());
+						// System.out.println("Tinglyst: "+matEnhet.isTinglyst()+"\n");
+	
+						eiendomsliste.add(eiendom);
+					}catch(Exception e){
+						
+						System.out.println("Exception setting data on regenhetrettsandel (property?)..heading to next");
+						System.out.println(e.getMessage());
+						
+						
+						
+					}
 				}
 
 				personMedEiendom.setEiendom(eiendomsliste);
 
 				result.put(personMedEiendom.getFnr(),
 						this.generateXML(personMedEiendom));
+				
+				}catch(Exception e){
+					
+					System.out.println("Exception setting data on ident...heading to next");
+					System.out.println(e.getMessage());
+					
+					
+					
+				}
 
 			}
 
@@ -355,12 +382,7 @@ public class Kartverket implements ProviderPlugin {
 
 		} catch (no.kartverket.grunnbok.wsapi.v1.service.ident.ServiceException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (no.kartverket.grunnbok.wsapi.v1.service.registerenhetsrettsandel.ServiceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ServiceException e) {
-			// TODO Auto-generated catch block
+			System.out.println("is this what im logging?");
 			e.printStackTrace();
 		}
 
